@@ -1,30 +1,45 @@
 install.packages("readxl")
-install.packages('ggthemes')
-
 
 library(dplyr)
 library(readxl)
 library(ggplot2)
 library(tidyverse)
-library(extrafont)
 
-
-Tab.GO <- read_excel("C:/Users/felip/OneDrive/Documentos/Arquivos(PROG.R)/PROG.R/Table_GO_ARVC.xlsx")
+Tab.GO <- read_excel("C:/Users/felip/OneDrive/Documentos/Arquivos/Nova pasta/Table_GO_ARVC.xlsx")
 
 valores.filtrados = Tab.GO %>% filter(P_value <= 0.05)
 
-Tab.GO$P_value = as.numeric(Tab.GO$P_value)
+unique(Tab.GO$Type)
 
+ggplot(Tab.GO %>% filter(Type == 'GO Molecullar Component'), aes(x = P_value , y = Name)) +
+  geom_bar(stat = "identity", show.legend = FALSE) +
+  labs(y = "P.value", x='')
 
+#############################################################################################
+ggplot(Tab.GO, aes(x = P_value, y = Name)) +
+  geom_bar() +
+  labs(y = "Name", x = "P_value") +
+  ggtitle("Gráfico GO")
 
+##########################################################################
+ggplot(Tab.GO %>% filter(Type == 'GO Molecullar Component'), aes(x = P_value ,y = Name)) + 
+  geom_point(shape = 5)
+  labs(y = "Name", x='P_Value', title = 'Molecullar Component' ) +
+  coord_flip() +
+  scale_x_discrete(
+    limits=c("regulation of atrial cardiac muscle cell membrane depolarization (GO:0060371)","sodium-independent organic anion transport (GO:0043252)",
+             "membrane depolarization during cardiac muscle cell action potential (GO:0086012)", "regulation of membrane depolarization (GO:0003254)", "cardiac muscle cell contraction (GO:0086003)",
+             "membrane depolarization during action potential (GO:0086010)", "regulation of sodium ion transmembrane transport (GO:1902305)", "positive regulation of protein import into nucleus (GO:0042307)",
+             "cardiac muscle cell action potential (GO:0086001)"), 
+    labels=c("GO:0060371","GO:0060371","GO:0043252",
+             "GO:0086012", "GO:0003254", "GO:0086003",
+             "GO:0086010", "GO:1902305", "GO:0042307",
+             "GO:0086001"))
+#############################################################################################
+ 
+ #RESUMO FINAL DO CÓDIGO
+ ggplot(valores.filtrados, aes(x = P_value ,y = Name)) + 
+    geom_point( size=5, color="red", fill=alpha("orange", 0.3), alpha=0.7, shape=21, stroke=2)
 
-ggplot(valores.filtrados, aes(x = P_value ,y = Name)) +
-  geom_point( size=5, color="red", fill=alpha("darkblue", 0.3), alpha=0.7, shape=21, stroke=2)+
-  theme(plot.background = element_rect(fill = "grey80", colour = "blue"), ) +
-  theme(panel.background = element_rect(colour = "red"), ) +
-  theme(axis.title = element_text(size = 25, colour = "blue"), ) +
-  theme(axis.text = element_text(size = 12, colour = "black" ,  face = "italic" , "bold"), )
   
 
-  
-@adluchessi
