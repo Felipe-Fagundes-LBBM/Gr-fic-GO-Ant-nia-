@@ -1,0 +1,29 @@
+install.packages("readxl")
+install.packages('ggthemes')
+
+
+library(dplyr)
+library(readxl)
+library(ggplot2)
+library(tidyverse)
+library(extrafont)
+
+
+Tab.GO <- read_excel("C:/Users/felip/OneDrive/Documentos/Arquivos(PROG.R)/PROG.R/Table_GO_ARVC.xlsx")
+
+valores.filtrados = Tab.GO %>% filter(P_value <= 0.05)
+
+Tab.GO$P_value = as.numeric(Tab.GO$P_value)
+
+
+
+
+ggplot(valores.filtrados, aes(x = P_value ,y = Name)) +
+  geom_point( size=5, color="red", fill=alpha("darkblue", 0.3), alpha=0.7, shape=21, stroke=2)+
+  theme(plot.background = element_rect(fill = "grey80", colour = "blue"), ) +
+  theme(panel.background = element_rect(colour = "red"), ) +
+  theme(axis.title = element_text(size = 25, colour = "blue"), ) +
+  theme(axis.text = element_text(size = 12, colour = "black" ,  face = "italic" , "bold"), )
+  
+
+  
